@@ -156,7 +156,8 @@ def get_cpu_count(nodename):
     try:
         conn = sqlite3.connect(NODES_DB_PATH)
         c = conn.cursor()
-        c.execute("SELECT CPUAlloc FROM nodes WHERE NodeName = ?", (nodename.split(".")[0],))
+        # c.execute("SELECT CPUAlloc FROM nodes WHERE NodeName = ?", (nodename.split(".")[0],))
+        c.execute("SELECT CPUTot FROM nodes WHERE NodeName = ?", (nodename.split(".")[0],))
         row = c.fetchone()
         conn.close()
         print(row)
