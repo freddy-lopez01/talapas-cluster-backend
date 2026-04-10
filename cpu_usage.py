@@ -22,6 +22,14 @@ node_features = {}
 
 DB_PATH = "/var/log/cpu_ingest/cpu_data.db"
 
+def expand_nodes(node_str):
+    """Expand Slurm node list like n[0037-0040,0042] into individual node names."""
+    result = subprocess.run(
+        ["scontrol", "show", "hostnames", node_str],
+        capture_output=True, text=True
+    )
+    return result.stdout.strip().split("\n")
+
 def update_cpu_db(node_data: dict[str, int]):
     """
     Update the cpu_data table with the latest cpu_usage per node.
@@ -48,7 +56,7 @@ def update_cpu_db(node_data: dict[str, int]):
 
 
 def obtain_squeue_out() -> dict[str, list[str]]:
-    cmd = f"squeue -o '%i %C %R' --noheader"
+    cmd = "squeue -o '%i %C %R' --noheader"
     jobs_dict = {}
     try:
         result = subprocess.run(cmd, shell=True, capture_output=True, text=True, check=True)
@@ -64,15 +72,15 @@ def obtain_squeue_out() -> dict[str, list[str]]:
 
 def filter_data(data, node_dict):
     pattern = r"^[a-zA-Z]\d{4}$"
-    counter = 0
     for k, v in data.items():
         if re.match(pattern, v[0]):
                 node_dict[v[0]] += int(v[1])
         else:
-            if "[" in v:
+            if "[" in v[0]:
                 node_list = expand_nodes(v[0])
-                #print(node_list)
-        counter +=1
+                for node in node_list:
+                    if node in node_dict:
+                        node_dict[node] += int(v[1])
     return node_dict
 
 
@@ -103,4 +111,4 @@ def main():
 if __name__ == "__main__":
     while True:
         main()
-        time.sleep(600)
+        time.sleep(60)
