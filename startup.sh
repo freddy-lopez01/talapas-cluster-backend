@@ -2,7 +2,7 @@
 
 docker run --rm -it \
   -p 5000:5000 \
-  -e CPU_COUNT_API_KEY="FreddyHa\$aR3DH4T" \
+  -e CPU_COUNT_API_KEY="FreddyHa5aR3DH4T" \
   -v /var/log/cpu_ingest:/var/log/cpu_ingest \
   -v /gpfs/t2/slurm/apps/24.05.7/bin:/usr/local/bin/slurm \
   -v /gpfs/t2/slurm/apps/24.05.7/lib/slurm:/usr/local/lib/slurm \

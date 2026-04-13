@@ -85,7 +85,7 @@ def main():
         nodes = get_node_facts()
         save_nodes_to_sqlite(nodes, "nodes.db")
         print("Updated database.")
-        time.sleep(1800) # 30 minutes
+        time.sleep(450) 
 
 
 
