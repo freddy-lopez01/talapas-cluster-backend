@@ -1,6 +1,5 @@
 #!/packages/miniconda3/20240410/envs/python312/bin/python3
 import subprocess
-import json
 import sqlite3
 import time
 
@@ -85,7 +84,7 @@ def main():
         nodes = get_node_facts()
         save_nodes_to_sqlite(nodes, "nodes.db")
         print("Updated database.")
-        time.sleep(450) 
+        time.sleep(30) 
 
 
 
