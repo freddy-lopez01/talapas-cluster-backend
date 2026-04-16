@@ -7,7 +7,6 @@ This script is currently lives locally on flopez2 machine but will be placed on 
 and updated which will be copied to a external S3 bucket so that the web app can then retrieve the data without firewall issues.
 '''
 
-from collections import defaultdict
 import subprocess
 import sqlite3
 import time
