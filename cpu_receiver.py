@@ -177,50 +177,6 @@ def get_cpu_count(nodename):
         return jsonify({"status": "error", "message": "Database error"}), 500
 
 
-@app.route('/api/cpu_update', methods=['POST'])
-def cpu_update():
-
-    if not verify_api_key(request):
-        return jsonify({"status": "error", "message": "Unauthorized"}), 401
-
-    data = request.get_json(force=True)
-
-    print(f"DATA FROM A NODE: {data}")
-
-    hostname = data.get("hostname")
-    cpu_count = data.get("cpu_count")
-
-    if not hostname or not cpu_count:
-        return jsonify({"status": "error", "message": "Missing hostname or cpu_count"}), 400
-
-    entry = {
-        "hostname": hostname,
-        "cpu_count": cpu_count,
-    }
-
-    with open(LOG_FILE, "a") as f:
-        f.write(json.dumps(entry) + "\n")
-    # This is where now hopefully the database will be populated 
-     
-    try: 
-        conn = sqlite3.connect(DB_PATH)
-        c = conn.cursor()
-        c.execute('''
-                INSERT INTO cpu_data (hostname, cpu_count)
-                VALUES (?, ?)
-                ON CONFLICT(hostname) DO UPDATE SET
-                    cpu_count=excluded.cpu_count
-            ''', (hostname, cpu_count))
-        conn.commit()
-        conn.close()
-    except Exception as e: 
-        print(f"Error inserting into SQLite: {e}")
-
-    print(f"[Received from {hostname}: {cpu_count} cores")
-
-    return jsonify({"status": "ok"}), 200
-
-
 if __name__ == "__main__":
     init_db()
     #populate_nodes()
