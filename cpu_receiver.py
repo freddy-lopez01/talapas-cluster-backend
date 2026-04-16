@@ -13,10 +13,10 @@ CORS(app)
 
 CORS(app, origins=["http://localhost:3002"])
 
-LOG_FILE = os.path.join("DB_PATH", "cpu_data.jsonl")
+LOG_FILE = os.path.join(os.environ.get("DB_PATH", "/var/log/cpu_ingest"), "cpu_data.jsonl")
 
-DB_PATH = os.environ.get("DB_PATH", "cpu_data.db")
-NODES_DB_PATH = os.environ.get("NODES_DB_PATH", "nodes.db")
+B_PATH = os.environ.get("DB_PATH", "/var/log/cpu_ingest/cpu_data.db")
+NODES_DB_PATH = os.environ.get("NODES_DB_PATH", "/var/log/cpu_ingest/nodes.db")
 #os.makedirs(LOG_DIR, exist_ok=TRUE)
 # Now to make the DB hehe
 def init_db():
@@ -175,7 +175,6 @@ def get_cpu_count(nodename):
     except Exception as e:
         print(f"Error querying SQLite: {e}")
         return jsonify({"status": "error", "message": "Database error"}), 500
-
 
 if __name__ == "__main__":
     init_db()
