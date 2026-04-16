@@ -38,13 +38,16 @@ def update_cpu_db(node_data: dict[str, int]):
     conn.execute("PRAGMA journal_mode=WAL;")
     cursor = conn.cursor()
     for node, used_cores in node_data.items():
-        nodename = node + ".talapas.uoregon.edu"
-        cursor.execute("""
-            INSERT INTO cpu_data (hostname, cpu_count, cpu_usage)
-            VALUES (?, ?, ?)
-            ON CONFLICT(hostname) DO UPDATE SET
-                cpu_usage = excluded.cpu_usage
-        """, (nodename, 0, used_cores))
+        if node[0] == "n":
+            nodename = node + ".talapas.uoregon.edu"
+            cursor.execute("""
+                INSERT INTO cpu_data (hostname, cpu_count, cpu_usage)
+                VALUES (?, ?, ?)
+                ON CONFLICT(hostname) DO UPDATE SET
+                    cpu_usage = excluded.cpu_usage
+            """, (nodename, 0, used_cores))
+        else: 
+            continue
     conn.commit()
     conn.close()
     print(f"[{time.strftime('%H:%M:%S')}] Updated {len(node_data)} nodes", flush=True)
