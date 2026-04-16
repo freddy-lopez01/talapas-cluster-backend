@@ -7,6 +7,7 @@ LABEL version="1.0"
 WORKDIR /app
 
 COPY . /app/
+COPY entrypoint.sh /entrypoint.sh
 
 RUN apt-get update && apt-get install -y \
     sqlite3 \
@@ -27,6 +28,5 @@ ENV FLASK_APP=/app/cpu_receiver.py \
 RUN mkdir -p /var/log/cpu_ingest
 
 EXPOSE 5000
-
-CMD ["python", "/app/cpu_receiver.py"]
+CMD ["/entrypoint.sh"]
 
