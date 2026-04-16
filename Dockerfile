@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y \
 RUN pip install -r requirements.txt
 
 ENV PATH="/usr/local/bin/slurm:$PATH"
-# Environment variables
+
 ENV FLASK_APP=/app/cpu_receiver.py \
     FLASK_ENV=production \
     DB_PATH=/var/log/cpu_ingest/cpu_data.db \

@@ -20,7 +20,8 @@ import re
 node_data = {}
 node_features = {}
 
-DB_PATH = "/var/log/cpu_ingest/cpu_data.db"
+#DB_PATH = "/var/log/cpu_ingest/cpu_data.db"
+DB_PATH = os.environ.get("DB_PATH", "cpu_data.db")
 
 def expand_nodes(node_str):
     """Expand Slurm node list like n[0037-0040,0042] into individual node names."""
