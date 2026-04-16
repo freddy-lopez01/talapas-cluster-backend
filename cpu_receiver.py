@@ -43,6 +43,7 @@ def init_db():
     conn.commit()
     conn.close()
 
+
 def get_all_nodes():
     """Run sinfo to get a sorted, unique list of all nodes."""
     result = subprocess.run(
@@ -86,6 +87,10 @@ def verify_api_key(request):
         return False 
     hashed = hashlib.sha256(key.encode()).hexdigest()
     return hashed == API_KEY_HASH
+
+@app.route('/health')
+def health():
+    return jsonify({"status": "ok"}), 200
 
 @app.route('/api/total_jobs', methods=['GET'])
 def total_jobs():
