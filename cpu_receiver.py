@@ -13,11 +13,10 @@ CORS(app)
 
 CORS(app, origins=["http://localhost:3002"])
 
-LOG_DIR = "/var/log/cpu_ingest"
-LOG_FILE = os.path.join(LOG_DIR, "cpu_data.jsonl")
-os.makedirs(LOG_DIR, exist_ok=True)
-DB_PATH = os.path.join(LOG_DIR, "cpu_data.db")
-NODES_DB_PATH = os.path.join(LOG_DIR, "nodes.db")
+LOG_FILE = os.path.join("DB_PATH", "cpu_data.jsonl")
+
+DB_PATH = os.environ.get("DB_PATH", "cpu_data.db")
+NODES_DB_PATH = os.environ.get("NODES_DB_PATH", "nodes.db")
 #os.makedirs(LOG_DIR, exist_ok=TRUE)
 # Now to make the DB hehe
 def init_db():
