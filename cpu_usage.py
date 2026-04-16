@@ -50,10 +50,10 @@ def update_cpu_db(node_data: dict[str, int]):
             continue
     conn.commit()
     conn.close()
-    print(f"[{time.strftime('%H:%M:%S')}] Updated {len(node_data)} nodes", flush=True)
+    #print(f"[{time.strftime('%H:%M:%S')}] Updated {len(node_data)} nodes", flush=True)
 
 def main():
-    print(f"[{time.strftime('%H:%M:%S')}] Refreshing node data...", flush=True)
+    #print(f"[{time.strftime('%H:%M:%S')}] Refreshing node data...", flush=True)
     node_data = get_node_alloc()
     update_cpu_db(node_data)
 
